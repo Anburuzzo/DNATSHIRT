@@ -2,6 +2,8 @@ import {
   collection,
   addDoc,
   getDocs,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
 
 import { db } from "../config/firebase";
@@ -29,3 +31,19 @@ export const getOrders = async () => {
     })
   );
 };
+
+
+
+export const updateOrderStatus =
+  async (
+    orderId: string,
+    status: string
+  ) => {
+
+    await updateDoc(
+      doc(db, "orders", orderId),
+      {
+        status,
+      }
+    );
+  };

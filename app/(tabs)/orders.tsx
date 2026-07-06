@@ -3,6 +3,7 @@ import {
   Text,
   FlatList,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
 
 import {
@@ -21,6 +22,8 @@ import {
 import {
   OrderContext,
 } from "../../src/context/OrderContext";
+
+import { router } from "expo-router";
 
 export default function Orders() {
 
@@ -73,6 +76,19 @@ const loadOrders = async () => {
               {item.status}
             </Text>
 
+            <TouchableOpacity
+              style={styles.trackButton}
+              onPress={() =>
+                router.push(
+                  `/tracking/${item.id}`
+                )
+              }
+            >
+              <Text style={styles.trackButtonText}>
+                Track Order
+              </Text>
+            </TouchableOpacity>
+
           </View>
 
         )}
@@ -117,5 +133,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: "green",
     fontWeight: "bold",
+  },
+
+  trackButton: {
+    alignItems: "center",
+    backgroundColor: "#111827",
+    borderRadius: 10,
+    marginTop: 14,
+    paddingVertical: 12,
+  },
+
+  trackButtonText: {
+    color: "#FFFFFF",
+    fontSize: 15,
+    fontWeight: "700",
   },
 });

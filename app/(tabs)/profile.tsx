@@ -40,6 +40,15 @@ export default function Profile() {
           Logout
         </Text>
       </TouchableOpacity>
+
+<TouchableOpacity
+  onPress={() => router.push("/admin/index")}
+>
+  <Text>
+    Admin Panel 👨‍💼
+  </Text>
+</TouchableOpacity>
+
     </View>
   );
 }

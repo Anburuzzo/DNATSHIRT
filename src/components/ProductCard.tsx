@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -10,9 +10,16 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 
+import { WishlistContext } from "../context/WishlistContext";
+
 export default function ProductCard({
   item,
 }: any) {
+  const { wishlistItems, toggleWishlist } = useContext(WishlistContext);
+  const isFavorite = wishlistItems.some(
+    (wishlistItem: any) => wishlistItem.id === item.id
+  );
+
   return (
     <TouchableOpacity
       style={styles.card}
@@ -28,11 +35,18 @@ export default function ProductCard({
         })
       }
     >
-      <TouchableOpacity style={styles.heart}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={styles.heart}
+        onPress={(event) => {
+          event.stopPropagation();
+          toggleWishlist(item);
+        }}
+      >
         <Ionicons
-          name="heart-outline"
+          name={isFavorite ? "heart" : "heart-outline"}
           size={20}
-          color="#111827"
+          color={isFavorite ? "#EF4444" : "#111827"}
         />
       </TouchableOpacity>
 
@@ -57,7 +71,7 @@ export default function ProductCard({
 
         <View style={styles.bottomRow}>
           <Text style={styles.price}>
-            ₹{item.price}
+            Rs. {item.price}
           </Text>
 
           <Ionicons
