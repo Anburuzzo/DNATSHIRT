@@ -18,32 +18,26 @@ export const saveOrder = async (
 };
 
 export const getOrders = async () => {
-
-  const snapshot =
-    await getDocs(
-      collection(db, "orders")
-    );
-
-  return snapshot.docs.map(
-    (doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })
+  const snapshot = await getDocs(
+    collection(db, "orders")
   );
+
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 };
 
 
 
-export const updateOrderStatus =
-  async (
-    orderId: string,
-    status: string
-  ) => {
-
-    await updateDoc(
-      doc(db, "orders", orderId),
-      {
-        status,
-      }
-    );
-  };
+export const updateOrderStatus = async (
+  orderId: string,
+  status: string
+) => {
+  await updateDoc(
+    doc(db, "orders", orderId),
+    {
+      status,
+    }
+  );
+};

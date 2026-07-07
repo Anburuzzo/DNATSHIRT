@@ -42,7 +42,7 @@ export default function Profile() {
       </TouchableOpacity>
 
 <TouchableOpacity
-  onPress={() => router.push("/admin/index")}
+  onPress={() => router.push("/admin")}
 >
   <Text>
     Admin Panel 👨‍💼

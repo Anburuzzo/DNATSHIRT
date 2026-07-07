@@ -1,10 +1,11 @@
 import {
   ActivityIndicator,
-  SafeAreaView,
+  
   View,
   Text,
   StyleSheet,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { db } from "../../src/config/firebase";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
