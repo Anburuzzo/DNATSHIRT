@@ -4,6 +4,8 @@ import {
   deleteDoc,
   doc,
   addDoc,
+  getDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 import { db } from "../config/firebase";
@@ -35,6 +37,36 @@ export const deleteProduct =
 
     await addDoc(
       collection(db, "products"),
+      product
+    );
+  };
+
+  export const getProductById =
+  async (id: string) => {
+
+    const snapshot =
+      await getDoc(
+        doc(db, "products", id)
+      );
+
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    return {
+      id: snapshot.id,
+      ...snapshot.data(),
+    };
+  };
+
+export const updateProduct =
+  async (
+    id: string,
+    product: any
+  ) => {
+
+    await updateDoc(
+      doc(db, "products", id),
       product
     );
   };

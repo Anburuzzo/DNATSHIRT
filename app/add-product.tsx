@@ -13,7 +13,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 
 import { addProduct } from "../src/services/productService";
-
+import { router } from "expo-router";
 export default function AddProduct() {
 
    
@@ -29,6 +29,9 @@ export default function AddProduct() {
 
   const [image, setImage] =
     useState("");
+
+    const [uploading, setUploading] =
+  useState(false);
 
   const handleSave = async () => {
 
@@ -46,16 +49,21 @@ export default function AddProduct() {
     }
 
     await addProduct({
-      name,
-      price: Number(price),
-      category,
-      image,
-    });
+  name,
+  price: Number(price),
+  category,
+  image,
+  description: "",
+  stock: 100,
+  rating: 5,
+  createdAt: new Date().toISOString(),
+});
 
     Alert.alert(
-      "Success",
-      "Product Added"
-    );
+  "Success",
+  "Product Added Successfully 🎉"
+);
+router.back();
 
     setName("");
     setPrice("");
@@ -64,14 +72,19 @@ export default function AddProduct() {
   };
 
 const pickImage = async () => {
+  try {
+    setUploading(true);
 
-const result =
-  await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ["images"],
-    quality: 0.8,
-  });
+    const result =
+      await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        quality: 0.8,
+      });
 
-  if (!result.canceled) {
+    if (result.canceled) {
+      setUploading(false);
+      return;
+    }
 
     const imageUri =
       result.assets[0].uri;
@@ -102,12 +115,21 @@ const result =
     const uploadedImage =
       await response.json();
 
-    setImage(
-      uploadedImage.secure_url
+    setImage(uploadedImage.secure_url);
+
+  } catch (error) {
+
+    Alert.alert(
+      "Upload Failed",
+      "Please try again."
     );
+
+  } finally {
+
+    setUploading(false);
+
   }
 };
-
 
 
   return (
@@ -139,22 +161,27 @@ const result =
         style={styles.input}
       />
 
-      <TextInput
-        placeholder="Image URL"
-        value={image}
-        onChangeText={setImage}
-        style={styles.input}
-      />
-
+    
 
       <TouchableOpacity
   style={styles.uploadButton}
   onPress={pickImage}
 >
+
   <Text style={styles.uploadText}>
-    📷 Select Image
-  </Text>
+  {uploading
+    ? "Uploading..."
+    : "📷 Select Image"}
+</Text>
 </TouchableOpacity>
+
+
+ {image ? (
+  <Image
+    source={{ uri: image }}
+    style={styles.preview}
+  />
+) : null}
 
       <TouchableOpacity
         style={styles.button}
@@ -213,5 +240,12 @@ uploadText: {
   color: "#fff",
   textAlign: "center",
   fontWeight: "bold",
+},
+
+preview: {
+  width: "100%",
+  height: 220,
+  borderRadius: 12,
+  marginBottom: 20,
 },
 });
