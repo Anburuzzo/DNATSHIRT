@@ -26,6 +26,8 @@ export default function AddProduct() {
 
   const [category, setCategory] =
     useState("");
+    const [stock, setStock] =
+  useState("");
 
   const [image, setImage] =
     useState("");
@@ -48,14 +50,15 @@ export default function AddProduct() {
       return;
     }
 
-    await addProduct({
+   await addProduct({
   name,
   price: Number(price),
   category,
   image,
   description: "",
-  stock: 100,
-  rating: 5,
+ stock: Number(stock),
+  status: "Active",
+
   createdAt: new Date().toISOString(),
 });
 
@@ -68,6 +71,7 @@ router.back();
     setName("");
     setPrice("");
     setCategory("");
+    setStock("");
     setImage("");
   };
 
@@ -160,6 +164,13 @@ const pickImage = async () => {
         onChangeText={setCategory}
         style={styles.input}
       />
+      <TextInput
+  placeholder="Stock"
+  keyboardType="numeric"
+  value={stock}
+  onChangeText={setStock}
+  style={styles.input}
+/>
 
     
 

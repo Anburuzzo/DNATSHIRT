@@ -20,7 +20,7 @@ import {
 } from "../src/services/productService";
 
 import { router } from "expo-router";
-
+import AdminProductCard from "../src/components/AdminProductCard";
 export default function AdminProducts() {
 
   const [products, setProducts] =
@@ -112,79 +112,33 @@ export default function AdminProducts() {
 </TouchableOpacity> */}
 
 
-  
+  <FlatList
+  data={filteredProducts}
+  numColumns={2}
+  keyExtractor={(item) => item.id}
+  columnWrapperStyle={{
+    justifyContent: "space-between",
+  }}
+  renderItem={({ item }) => (
+    <AdminProductCard
+      item={item}
+      onEdit={() =>
+        router.push({
+          pathname: "/edit-product/[id]",
+          params: {
+            id: String(item.id),
+          },
+        })
+      }
+      onDelete={() =>
+        handleDelete(item.id)
+      }
+    />
+  )}
+/>
 
 
-      <FlatList
-        data={filteredProducts}
-        keyExtractor={(item) =>
-          item.id
-        }
-        renderItem={({ item }) => (
-
-          <View style={styles.card}>
-
-            <Image
-              source={{
-                uri: item.image,
-              }}
-              style={styles.image}
-            />
-
-
-            
-
-
-            <Text style={styles.name}>
-  {item.name}
-</Text>
-
-<View style={styles.badge}>
-  <Text style={styles.badgeText}>
-    {item.category}
-  </Text>
-</View>
-
-<Text style={styles.price}>
-  ₹ {item.price}
-</Text>
-
-
-            <View style={styles.actionRow}>
-
-  <TouchableOpacity
-    style={styles.iconButton}
-    onPress={() =>
-      router.push({
-        pathname: "/edit-product/[id]",
-        params: {
-          id: String(item.id),
-        },
-      })
-    }
-  >
-    <Text style={styles.icon}>
-      ✏️
-    </Text>
-  </TouchableOpacity>
-
-  <TouchableOpacity
-    style={styles.iconButton}
-    onPress={() =>
-      handleDelete(item.id)
-    }
-  >
-    <Text style={styles.icon}>
-      🗑️
-    </Text>
-  </TouchableOpacity>
-
-</View>
-
-          </View>
-
-        )}
-      />
+   
 
        <TouchableOpacity
   style={styles.fab}
@@ -227,42 +181,46 @@ const styles =
   marginTop: 4,
     },
 
-    card: {
+   card: {
   backgroundColor: "#FFFFFF",
-  borderRadius: 24,
-  padding: 14,
-  marginBottom: 20,
+
+  width: "48%",
+
+  borderRadius: 22,
+
+  padding: 10,
+
+  marginBottom: 18,
 
   shadowColor: "#000",
   shadowOffset: {
     width: 0,
-    height: 8,
+    height: 6,
   },
   shadowOpacity: 0.08,
-  shadowRadius: 15,
+  shadowRadius: 10,
 
-  elevation: 6,
+  elevation: 5,
 },
 
    image: {
   width: "100%",
-  height: 220,
-  borderRadius: 20,
-  resizeMode: "cover",
+  height: 150,
+  borderRadius: 16,
 },
 
    name: {
-  fontSize: 22,
-  fontWeight: "800",
+  fontSize: 16,
+  fontWeight: "700",
   color: "#111827",
-  marginTop: 15,
+  marginTop: 10,
 },
 
    price: {
-  fontSize: 20,
   color: "#111827",
-  fontWeight: "700",
-  marginTop: 12,
+  fontWeight: "800",
+  fontSize: 18,
+  marginTop: 8,
 },
 
     deleteBtn: {
@@ -316,17 +274,17 @@ editText: {
 
 badge: {
   alignSelf: "flex-start",
-  backgroundColor: "#EEF2FF",
-  paddingHorizontal: 12,
-  paddingVertical: 5,
-  borderRadius: 20,
+  backgroundColor: "#F3F4F6",
+  paddingHorizontal: 10,
+  paddingVertical: 4,
+  borderRadius: 12,
   marginTop: 8,
 },
 
 badgeText: {
-  color: "#4338CA",
+  color: "#374151",
+  fontSize: 12,
   fontWeight: "700",
-  fontSize: 13,
 },
 actionRow: {
   flexDirection: "row",
@@ -387,6 +345,27 @@ fabText: {
   fontSize: 34,
   fontWeight: "bold",
 },
+imageContainer: {
+  position: "relative",
+},
 
+priceTag: {
+  position: "absolute",
+  bottom: 10,
+  right: 10,
+
+  backgroundColor: "#111827",
+
+  paddingHorizontal: 10,
+  paddingVertical: 5,
+
+  borderRadius: 15,
+},
+
+priceTagText: {
+  color: "#FFFFFF",
+  fontWeight: "700",
+  fontSize: 13,
+},
 
   });

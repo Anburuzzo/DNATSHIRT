@@ -42,6 +42,9 @@ const [price, setPrice] =
 const [category, setCategory] =
   useState("");
 
+  const [stock, setStock] =
+  useState("");
+
 const [image, setImage] =
   useState("");
 
@@ -76,6 +79,10 @@ const loadProduct = async () => {
   setCategory(
     product.category || ""
   );
+
+  setStock(
+  String(product.stock || "")
+);
 
   setImage(
     product.image || ""
@@ -167,11 +174,14 @@ const handleUpdate = async () => {
 
     await updateProduct(
       id as string,
-      {
-        name,
-        price: Number(price),
-        category,
-        image,
+      
+        {
+  name,
+  price: Number(price),
+  category,
+  stock: Number(stock),
+  image,
+
       }
     );
 
@@ -225,6 +235,14 @@ const handleUpdate = async () => {
       placeholder="Category"
       style={styles.input}
     />
+
+    <TextInput
+  placeholder="Stock"
+  keyboardType="numeric"
+  value={stock}
+  onChangeText={setStock}
+  style={styles.input}
+/>
 
     <TouchableOpacity
   style={styles.uploadButton}

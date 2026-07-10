@@ -29,6 +29,8 @@ export default function ProductDetails() {
   image,
 } = useLocalSearchParams();
 
+
+
   // const product = products.find(
   //   (item) => item.id === id
   // );
