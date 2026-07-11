@@ -28,6 +28,8 @@ export default function AddProduct() {
     useState("");
     const [stock, setStock] =
   useState("");
+  const [description, setDescription] =
+  useState("");
 
   const [image, setImage] =
     useState("");
@@ -55,11 +57,16 @@ export default function AddProduct() {
   price: Number(price),
   category,
   image,
-  description: "",
- stock: Number(stock),
-  status: "Active",
+  description,
+  stock: Number(stock),
 
-  createdAt: new Date().toISOString(),
+  status:
+    Number(stock) > 0
+      ? "Active"
+      : "Out of Stock",
+
+  createdAt:
+    new Date().toISOString(),
 });
 
     Alert.alert(
@@ -172,6 +179,21 @@ const pickImage = async () => {
   style={styles.input}
 />
 
+<TextInput
+  placeholder="Description"
+  value={description}
+  onChangeText={setDescription}
+  multiline
+  numberOfLines={3}
+  style={[
+    styles.input,
+    {
+      height: 90,
+      textAlignVertical: "top",
+    },
+  ]}
+/>
+
     
 
       <TouchableOpacity
@@ -229,9 +251,15 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: "#16A34A",
-    padding: 15,
-    borderRadius: 10,
+   
+  backgroundColor: "#111827",
+  padding: 18,
+  borderRadius: 18,
+  alignItems: "center",
+  elevation: 10,
+  shadowColor: "#000",
+ 
+
   },
 
   buttonText: {
@@ -241,14 +269,14 @@ const styles = StyleSheet.create({
   },
 
   uploadButton: {
-  backgroundColor: "#2563EB",
+  backgroundColor: "#c1d2d2",
   padding: 14,
   borderRadius: 12,
   marginBottom: 15,
 },
 
 uploadText: {
-  color: "#fff",
+  color: "#000000",
   textAlign: "center",
   fontWeight: "bold",
 },

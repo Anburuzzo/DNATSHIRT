@@ -52,41 +52,40 @@ export default function AdminProductCard({
         </Text>
       </View>
 
+
+      <Text
+  numberOfLines={2}
+  style={styles.description}
+>
+  {item.description || "No description available"}
+</Text>
+
+
    <View style={styles.infoRow}>
 
   <View style={styles.stockBadge}>
-    <Text style={styles.stockText}>
-      📦 Stock : {item.stock ?? 0}
-    </Text>
+    <Text
+  style={[
+    styles.statusText,
+    {
+      color:
+        item.stock === 0
+          ? "#DC2626"
+          : item.stock <= 10
+          ? "#CA8A04"
+          : "#16A34A",
+    },
+  ]}
+>
+  {item.stock === 0
+    ? "🔴 Out of Stock"
+    : item.stock <= 10
+    ? "🟡 Low Stock"
+    : "🟢 In Stock"}
+</Text>
   </View>
 
-  <View
-    style={[
-      styles.statusBadge,
-      {
-        backgroundColor:
-          (item.stock ?? 0) > 0
-            ? "#DCFCE7"
-            : "#FEE2E2",
-      },
-    ]}
-  >
-    <Text
-      style={[
-        styles.statusText,
-        {
-          color:
-            (item.stock ?? 0) > 0
-              ? "#15803D"
-              : "#DC2626",
-        },
-      ]}
-    >
-      {(item.stock ?? 0) > 0
-        ? "Active"
-        : "Out of Stock"}
-    </Text>
-  </View>
+  
 
 </View>
 
@@ -244,5 +243,15 @@ statusBadge: {
 statusText: {
   fontWeight: "700",
   fontSize: 12,
+},
+
+description: {
+  marginTop: 10,
+
+  color: "#6B7280",
+
+  fontSize: 13,
+
+  lineHeight: 18,
 },
 });

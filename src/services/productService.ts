@@ -10,15 +10,16 @@ import {
 
 import { db } from "../config/firebase";
 import { Product } from "../types/Product";
-export const getProducts = async () => {
+
+export const getProducts = async (): Promise<Product[]> => {
   const snapshot = await getDocs(
     collection(db, "products")
   );
 
   return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  id: doc.id,
+  ...(doc.data() as Omit<Product, "id">),
+}));
 };
 export const deleteProduct =
   async (productId: string) => {

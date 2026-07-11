@@ -12,6 +12,7 @@ import {
   Image,
   Alert,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 
 import {
@@ -43,6 +44,9 @@ const [category, setCategory] =
   useState("");
 
   const [stock, setStock] =
+  useState("");
+
+  const [description, setDescription] =
   useState("");
 
 const [image, setImage] =
@@ -82,6 +86,9 @@ const loadProduct = async () => {
 
   setStock(
   String(product.stock || "")
+);
+setDescription(
+  product.description || ""
 );
 
   setImage(
@@ -153,6 +160,21 @@ const pickImage = async () => {
 };
 
 
+const increaseStock = () => {
+  setStock(
+    String(Number(stock || 0) + 1)
+  );
+};
+
+const decreaseStock = () => {
+  if (Number(stock) <= 0) return;
+
+  setStock(
+    String(Number(stock) - 1)
+  );
+};
+
+
 const handleUpdate = async () => {
 
   if (
@@ -172,18 +194,25 @@ const handleUpdate = async () => {
 
   try {
 
-    await updateProduct(
-      id as string,
-      
-        {
+   await updateProduct(
+  id as string,
+  {
   name,
   price: Number(price),
   category,
-  stock: Number(stock),
-  image,
 
-      }
-    );
+  description,
+
+  stock: Number(stock),
+
+  status:
+    Number(stock) > 0
+      ? "Active"
+      : "Out of Stock",
+
+  image,
+}
+);
 
     Alert.alert(
       "Success",
@@ -204,6 +233,13 @@ const handleUpdate = async () => {
 
   return (
   <View style={styles.container}>
+
+      <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        paddingBottom: 120,
+      }}
+    >
 
     <Text style={styles.title}>
       Edit Product 👕
@@ -237,12 +273,56 @@ const handleUpdate = async () => {
     />
 
     <TextInput
-  placeholder="Stock"
-  keyboardType="numeric"
-  value={stock}
-  onChangeText={setStock}
-  style={styles.input}
+  placeholder="Product Description"
+  value={description}
+  onChangeText={setDescription}
+  multiline
+  numberOfLines={4}
+  style={[
+    styles.input,
+    {
+      height: 100,
+      textAlignVertical: "top",
+    },
+  ]}
 />
+
+    <View style={styles.stockContainer}>
+
+  <Text style={styles.stockTitle}>
+    📦 Stock
+  </Text>
+
+  <View style={styles.stockRow}>
+
+    <TouchableOpacity
+      style={styles.stockButton}
+      onPress={decreaseStock}
+    >
+      <Text style={styles.stockButtonText}>
+        −
+      </Text>
+    </TouchableOpacity>
+
+    <Text style={styles.stockValue}>
+      {stock}
+    </Text>
+
+    <TouchableOpacity
+      style={styles.stockButton}
+      onPress={increaseStock}
+    >
+      <Text style={styles.stockButtonText}>
+        +
+      </Text>
+    </TouchableOpacity>
+    
+
+  </View>
+
+</View>
+
+    
 
     <TouchableOpacity
   style={styles.uploadButton}
@@ -253,7 +333,7 @@ const handleUpdate = async () => {
   </Text>
 </TouchableOpacity>
 
-
+</ScrollView>
 
 <TouchableOpacity
   style={styles.updateButton}
@@ -265,8 +345,15 @@ const handleUpdate = async () => {
 </TouchableOpacity>
 
   </View>
+
+ 
+  
 );
+
+
 }
+
+
 
 const styles = StyleSheet.create({
 
@@ -301,23 +388,36 @@ const styles = StyleSheet.create({
   },
 
   uploadButton: {
-  backgroundColor: "#2563EB",
+  backgroundColor: "#c1d2d2",
   padding: 15,
   borderRadius: 12,
   marginBottom: 15,
 },
 
 uploadText: {
-  color: "#fff",
+  color: "#000000",
   textAlign: "center",
   fontWeight: "bold",
   fontSize: 16,
 },
 
 updateButton: {
-  backgroundColor: "#16A34A",
-  padding: 16,
-  borderRadius: 12,
+  position: "absolute",
+  left: 20,
+  right: 20,
+  bottom: 20,
+  backgroundColor: "#111827",
+  padding: 18,
+  borderRadius: 18,
+  alignItems: "center",
+  elevation: 10,
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 5,
+  },
+  shadowOpacity: 0.2,
+  shadowRadius: 10,
 },
 
 updateText: {
@@ -325,6 +425,53 @@ updateText: {
   textAlign: "center",
   fontWeight: "bold",
   fontSize: 17,
+},
+
+stockContainer: {
+  marginBottom: 20,
+},
+
+stockTitle: {
+  fontSize: 16,
+  fontWeight: "700",
+  marginBottom: 12,
+  color: "#111827",
+},
+
+stockRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+
+  backgroundColor: "#F3F4F6",
+
+  borderRadius: 15,
+
+  padding: 10,
+},
+
+stockButton: {
+  width: 45,
+  height: 45,
+
+  borderRadius: 12,
+
+  backgroundColor: "#111827",
+
+  justifyContent: "center",
+  alignItems: "center",
+},
+
+stockButtonText: {
+  color: "#FFFFFF",
+  fontSize: 24,
+  fontWeight: "700",
+},
+
+stockValue: {
+  fontSize: 22,
+  fontWeight: "700",
+  color: "#111827",
 },
 
 });
