@@ -20,6 +20,7 @@ import {
 } from "expo-router";
 
 import * as ImagePicker from "expo-image-picker";
+import { router } from "expo-router";
 
 import {
   getProductById,
@@ -33,6 +34,8 @@ export default function EditProduct() {
 
     const [loading, setLoading] =
   useState(true);
+  const [updating, setUpdating] =
+  useState(false);
 
 const [name, setName] =
   useState("");
@@ -51,6 +54,9 @@ const [category, setCategory] =
 
 const [image, setImage] =
   useState("");
+
+  const [success, setSuccess] =
+  useState(false);
 
 
   useEffect(() => {
@@ -175,13 +181,64 @@ const decreaseStock = () => {
 };
 
 
+const add10Stock = () => {
+  setStock(
+    String(Number(stock || 0) + 10)
+  );
+};
+
+const add25Stock = () => {
+  setStock(
+    String(Number(stock || 0) + 25)
+  );
+};
+
+const add50Stock = () => {
+  setStock(
+    String(Number(stock || 0) + 50)
+  );
+};
+
+const resetStock = () => {
+
+  Alert.alert(
+
+    "Reset Stock",
+
+    "Are you sure you want to reset stock to 0?",
+
+    [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+
+      {
+        text: "Reset",
+        style: "destructive",
+
+        onPress: () => {
+          setStock("0");
+        },
+      },
+    ]
+
+  );
+
+};
+
+
 const handleUpdate = async () => {
+
+
 
   if (
     !name ||
-    !price ||
-    !category ||
-    !image
+  !price ||
+  !category ||
+  !description ||
+  !image ||
+  stock === ""
   ) {
 
     Alert.alert(
@@ -191,6 +248,8 @@ const handleUpdate = async () => {
 
     return;
   }
+
+   setUpdating(true);
 
   try {
 
@@ -214,10 +273,12 @@ const handleUpdate = async () => {
 }
 );
 
-    Alert.alert(
-      "Success",
-      "Product Updated Successfully 🎉"
-    );
+setSuccess(true);
+setTimeout(() => {
+  router.replace("/admin/manage-products");
+}, 3000);
+
+
 
   } catch (error) {
 
@@ -229,7 +290,42 @@ const handleUpdate = async () => {
     );
 
   }
+
+  setUpdating(false);
 };
+
+
+
+if (success) {
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#FFFFFF",
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 70,
+        }}
+      >
+        ✅
+      </Text>
+
+      <Text
+        style={{
+          fontSize: 22,
+          fontWeight: "700",
+          marginTop: 20,
+        }}
+      >
+        Product Updated!
+      </Text>
+    </View>
+  );
+}
 
   return (
   <View style={styles.container}>
@@ -296,9 +392,15 @@ const handleUpdate = async () => {
   <View style={styles.stockRow}>
 
     <TouchableOpacity
-      style={styles.stockButton}
-      onPress={decreaseStock}
-    >
+  style={[
+    styles.stockButton,
+    Number(stock) === 0 && {
+      backgroundColor: "#9CA3AF",
+    },
+  ]}
+  onPress={decreaseStock}
+  disabled={Number(stock) === 0}
+>
       <Text style={styles.stockButtonText}>
         −
       </Text>
@@ -316,11 +418,54 @@ const handleUpdate = async () => {
         +
       </Text>
     </TouchableOpacity>
-    
-
+  
   </View>
 
+<View style={styles.quickRow}>
+
+  <TouchableOpacity
+    style={styles.quickButton}
+    onPress={add10Stock}
+  >
+    <Text style={styles.quickText}>
+      +10
+    </Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    style={styles.quickButton}
+    onPress={add25Stock}
+  >
+    <Text style={styles.quickText}>
+      +25
+    </Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    style={styles.quickButton}
+    onPress={add50Stock}
+  >
+    <Text style={styles.quickText}>
+      +50
+    </Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    style={styles.resetButton}
+    onPress={resetStock}
+  >
+    <Text style={styles.resetText}>
+      Reset
+    </Text>
+  </TouchableOpacity>
+
 </View>
+
+
+
+</View>
+
+
 
     
 
@@ -337,11 +482,14 @@ const handleUpdate = async () => {
 
 <TouchableOpacity
   style={styles.updateButton}
+  disabled={updating}
   onPress={handleUpdate}
 >
   <Text style={styles.updateText}>
-    💾 Update Product
-  </Text>
+  {updating
+    ? "⏳ Updating..."
+    : "💾 Update Product"}
+</Text>
 </TouchableOpacity>
 
   </View>
@@ -472,6 +620,40 @@ stockValue: {
   fontSize: 22,
   fontWeight: "700",
   color: "#111827",
+},
+
+quickRow: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  marginTop: 15,
+},
+
+quickButton: {
+  flex: 1,
+  backgroundColor: "#111827",
+  paddingVertical: 10,
+  borderRadius: 10,
+  marginHorizontal: 4,
+  alignItems: "center",
+},
+
+quickText: {
+  color: "#FFFFFF",
+  fontWeight: "700",
+},
+
+resetButton: {
+  flex: 1,
+  backgroundColor: "#DC2626",
+  paddingVertical: 10,
+  borderRadius: 10,
+  marginHorizontal: 4,
+  alignItems: "center",
+},
+
+resetText: {
+  color: "#FFFFFF",
+  fontWeight: "700",
 },
 
 });

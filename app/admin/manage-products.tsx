@@ -17,10 +17,10 @@ import {
 import {
   getProducts,
   deleteProduct,
-} from "../src/services/productService";
+} from "../../src/services/productService";
 
 import { router } from "expo-router";
-import AdminProductCard from "../src/components/AdminProductCard";
+import AdminProductCard from "../../src/components/AdminProductCard";
 export default function AdminProducts() {
 
   const [products, setProducts] =
