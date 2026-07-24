@@ -309,12 +309,14 @@ export default function OrdersScreen() {
       <Text style={styles.total}>
         ₹ {item.total || 0}
       </Text>
-
-      <Text style={styles.items}>
-        Items :
-        {" "}
-        {item.items?.length || 0}
-      </Text>
+      
+<Text style={styles.items}>
+  Items: {item.items?.reduce(
+    (total: number, product: any) =>
+      total + Number(product.quantity || 0),
+    0
+  ) || 0}
+</Text>
 
       <Text style={styles.date}>
         {item.createdAt?.toDate

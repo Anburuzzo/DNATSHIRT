@@ -19,7 +19,7 @@ import {
 
 
 import { saveOrder } from "../../src/services/orderService";
-
+import { reduceProductStock, getProductById, } from "../../src/services/productService";
 export default function Checkout() {
 
   const { cartItems } =
@@ -47,24 +47,47 @@ const handlePlaceOrder = async () => {
 
     const orderData = {
       items: cartItems.map((item: any) => ({
-        id: item.id || "",
-        name: item.name || "",
-        price: item.price || 0,
-        quantity: item.quantity || 1,
-        image: item.image || "",
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
       })),
       total: totalAmount,
       status: "Placed",
       createdAt: new Date().toISOString(),
     };
 
-    console.log(
-      "ORDER",
-      JSON.stringify(orderData, null, 2)
-    );
+    // 1️⃣ Check stock BEFORE saving the order
+    for (const item of orderData.items) {
+      const product = await getProductById(item.id);
 
+      if (!product) {
+        Alert.alert("Error", "Product not found.");
+        return;
+      }
+
+      if (item.quantity > product.stock) {
+        Alert.alert(
+          "Out of Stock",
+          `Only ${product.stock} item(s) available for ${product.name}`
+        );
+        return;
+      }
+    }
+console.log(orderData.items);
+    // 2️⃣ Save the order
     await saveOrder(orderData);
 
+    // 3️⃣ Reduce stock
+    for (const item of orderData.items) {
+      await reduceProductStock(
+        item.id,
+        item.quantity
+      );
+    }
+
+    // 4️⃣ Clear cart
     clearCart();
 
     Alert.alert(
@@ -83,7 +106,6 @@ const handlePlaceOrder = async () => {
     );
   }
 };
-
 
 
   return (

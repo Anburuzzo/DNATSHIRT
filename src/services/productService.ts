@@ -71,3 +71,29 @@ export const updateProduct =
       product
     );
   };
+
+  export const reduceProductStock = async (
+  productId: string,
+  quantity: number
+) => {
+  const productRef = doc(db, "products", productId);
+
+  const snapshot = await getDoc(productRef);
+
+  if (!snapshot.exists()) {
+    return;
+  }
+
+  const product = snapshot.data();
+
+  const currentStock = Number(product.stock || 0);
+
+  const newStock = Math.max(
+    currentStock - quantity,
+    0
+  );
+
+  await updateDoc(productRef, {
+    stock: newStock,
+  });
+};
