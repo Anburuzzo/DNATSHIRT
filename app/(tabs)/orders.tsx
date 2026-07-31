@@ -14,7 +14,7 @@ import {
 import {
   getOrders,
 } from "../../src/services/orderService";
-
+import { uploadImage } from "../../src/services/cloudinary";
 import {
   useContext,
 } from "react";

@@ -17,7 +17,8 @@ import { router } from "expo-router";
 import BannerSlider from "../../src/components/BannerSlider";
 import ProductCard from "../../src/components/ProductCard";
 import { getProducts } from "../../src/services/productService";
-
+import { uploadImage } from "../../src/services/cloudinary";
+import BottomNavigation from "../../src/components/BottomNavigation";
 type Product = {
   id: string;
   name?: string;
@@ -137,6 +138,9 @@ export default function Home() {
           );
         })}
       </ScrollView>
+
+
+      
     </View>
   );
 
@@ -167,6 +171,10 @@ export default function Home() {
           showsVerticalScrollIndicator={false}
         />
       )}
+
+      
+
+      
     </SafeAreaView>
   );
 }

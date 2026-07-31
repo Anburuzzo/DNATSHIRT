@@ -1,35 +1,15 @@
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import {
-  useLocalSearchParams,
-} from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 
-import {
-  useContext,
-} from "react";
+import { useContext } from "react";
 
-import {
-  CartContext,
-} from "../../src/context/CartContext";
-
+import { CartContext } from "../../src/context/CartContext";
+import BottomNavigation from "../../src/components/BottomNavigation";
 //import products from "../../src/data/products";
 
 export default function ProductDetails() {
-
-  const {
-  id,
-  name,
-  price,
-  image,
-} = useLocalSearchParams();
-
-
+  const { id, name, price, image } = useLocalSearchParams();
 
   // const product = products.find(
   //   (item) => item.id === id
@@ -43,41 +23,32 @@ export default function ProductDetails() {
   //   );
   // }
 
-  const { addToCart } =
-  useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
 
   return (
     <View style={styles.container}>
+      <Image source={{ uri: image as string }} style={styles.image} />
 
-     <Image
-  source={{ uri: image as string }}
-  style={styles.image}
-/>
+      <Text style={styles.name}>{name}</Text>
 
-      <Text style={styles.name}>
-  {name}
-</Text>
-
-<Text style={styles.price}>
-  ₹{price}
-</Text>
+      <Text style={styles.price}>₹{price}</Text>
 
       <TouchableOpacity
-  style={styles.button}
-  onPress={() =>
-  addToCart({
-    id,
-    name,
-    price: Number(price),
-    image,
-  })
-}
->
-  <Text style={styles.buttonText}>
-    Add To Cart
-  </Text>
-</TouchableOpacity>
+        style={styles.button}
+        onPress={() =>
+          addToCart({
+            id,
+            name,
+            price: Number(price),
+            image,
+          })
+        }
+      >
+        <Text style={styles.buttonText}>Add To Cart</Text>
+      </TouchableOpacity>
 
+      {/* Bottom Navigation */}
+      <BottomNavigation />
     </View>
   );
 }

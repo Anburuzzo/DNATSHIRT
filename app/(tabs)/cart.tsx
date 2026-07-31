@@ -13,7 +13,7 @@ import {
 import {
   CartContext,
 } from "../../src/context/CartContext";
-
+import { uploadImage } from "../../src/services/cloudinary";
 import {TouchableOpacity,} from "react-native";
 
 import { router } from "expo-router";

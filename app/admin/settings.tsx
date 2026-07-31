@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Settings } from "../../src/types/Settings";
-
+import { uploadImage } from "../../src/services/cloudinary";
 import {
   getSettings,
   saveSettings,
@@ -26,8 +26,8 @@ export default function SettingsScreen() {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-
-  const CLOUD_NAME = "dnatshirt";
+const [uploadProgress, setUploadProgress] = useState(0);
+  const CLOUD_NAME = "ues5tn61";
 const UPLOAD_PRESET = "dnatshirt_upload";
 
   useEffect(() => {
@@ -45,21 +45,40 @@ const UPLOAD_PRESET = "dnatshirt_upload";
     }
   };
 
-  const onSave = async () => {
-    try {
-      setSaving(true);
 
-      const success = await saveSettings(settings);
+const onSave = async () => {
+  try {
+    setLoading(true);
 
-      if (success) {
-        Alert.alert("Success", "Settings Saved Successfully");
-      } else {
-        Alert.alert("Error", "Unable to save settings");
-      }
-    } finally {
-      setSaving(false);
+   let logoUrl = settings.logo;
+
+if (selectedLogo) {
+  const uploaded = await uploadImage(
+    selectedLogo,
+    (progress) => {
+      setUploadProgress(progress);
     }
-  };
+  );
+
+  logoUrl = uploaded.secure_url;
+}
+
+    await saveSettings({
+      ...settings,
+      logo: logoUrl,
+    });
+
+    setUploadProgress(0);
+    setSelectedLogo(null);
+
+    Alert.alert("Success", "Settings saved successfully");
+  } catch (error: any) {
+    console.error(error);
+    Alert.alert("Error", error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const update = (key: keyof Settings, value: any) => {
   setSettings(prev => ({

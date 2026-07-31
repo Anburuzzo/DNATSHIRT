@@ -15,7 +15,7 @@ import ProductCard from
 import {
   WishlistContext,
 } from "../../src/context/WishlistContext";
-
+import { uploadImage } from "../../src/services/cloudinary";
 export default function Wishlist() {
 
   const { wishlistItems } =

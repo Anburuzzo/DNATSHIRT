@@ -13,6 +13,8 @@ import {
   doc,
   onSnapshot,
 } from "firebase/firestore";
+import BottomNavigation from "../../src/components/BottomNavigation";
+
 
 const steps = [
   "Placed",
@@ -163,6 +165,9 @@ export default function OrderTracking() {
           </View>
         );
       })}
+
+      {/* Bottom Navigation */}
+      <BottomNavigation />
     </SafeAreaView>
   );
 }

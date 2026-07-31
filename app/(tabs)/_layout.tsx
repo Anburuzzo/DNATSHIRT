@@ -30,6 +30,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          
         }}
       />
 
@@ -44,6 +45,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          
         }}
       />
 
@@ -58,6 +60,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          
         }}
       />
 
@@ -72,6 +75,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          
         }}
       />
 
@@ -84,10 +88,16 @@ export default function TabLayout() {
               name="person"
               size={size}
               color={color}
+              
             />
           ),
+          
         }}
       />
+
+
     </Tabs>
   );
 }
+
+
