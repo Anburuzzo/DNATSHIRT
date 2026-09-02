@@ -44,10 +44,16 @@ export default function WishlistProvider({
     }
   };
 
+    // WISHLIST BADGE COUNT
+  const wishlistCount = wishlistItems.length;
+
+  
+
   return (
     <WishlistContext.Provider
       value={{
         wishlistItems,
+        wishlistCount,
         toggleWishlist,
       }}
     >

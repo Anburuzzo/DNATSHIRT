@@ -15,6 +15,7 @@ import {
   getOrders,
 } from "../../src/services/orderService";
 import { uploadImage } from "../../src/services/cloudinary";
+//import BottomNavigation from "../../src/components/BottomNavigation";
 import {
   useContext,
 } from "react";
@@ -54,7 +55,7 @@ const loadOrders = async () => {
         My Orders 📦
       </Text>
 
-      <FlatList
+            <FlatList
         data={orders}
         keyExtractor={(item) =>
           item.id
@@ -92,7 +93,12 @@ const loadOrders = async () => {
           </View>
 
         )}
+        contentContainerStyle={{
+          paddingBottom: 100,
+        }}
       />
+
+      
 
     </View>
   );

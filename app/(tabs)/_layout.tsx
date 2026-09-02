@@ -1,36 +1,21 @@
 import { Tabs } from "expo-router";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import BottomNavigation from "../../src/components/BottomNavigation";
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-
         tabBarStyle: {
-          height: 65,
-          paddingBottom: 8,
-          paddingTop: 8,
-          borderTopWidth: 0,
-          elevation: 10,
+          display: "none",
         },
-
-        tabBarActiveTintColor: "#111827",
-        tabBarInactiveTintColor: "gray",
       }}
+      tabBar={() => <BottomNavigation />}
     >
       <Tabs.Screen
         name="home"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="home"
-              size={size}
-              color={color}
-            />
-          ),
-          
         }}
       />
 
@@ -38,14 +23,6 @@ export default function TabLayout() {
         name="wishlist"
         options={{
           title: "Wishlist",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="heart"
-              size={size}
-              color={color}
-            />
-          ),
-          
         }}
       />
 
@@ -53,14 +30,6 @@ export default function TabLayout() {
         name="cart"
         options={{
           title: "Cart",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="cart"
-              size={size}
-              color={color}
-            />
-          ),
-          
         }}
       />
 
@@ -68,14 +37,6 @@ export default function TabLayout() {
         name="orders"
         options={{
           title: "Orders",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="receipt"
-              size={size}
-              color={color}
-            />
-          ),
-          
         }}
       />
 
@@ -83,21 +44,8 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="person"
-              size={size}
-              color={color}
-              
-            />
-          ),
-          
         }}
       />
-
-
     </Tabs>
   );
 }
-
-

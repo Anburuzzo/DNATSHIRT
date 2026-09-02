@@ -14,6 +14,8 @@ import {
   CartContext,
 } from "../../src/context/CartContext";
 import { uploadImage } from "../../src/services/cloudinary";
+//import BottomNavigation from "../../src/components/BottomNavigation";
+
 import {TouchableOpacity,} from "react-native";
 
 import { router } from "expo-router";
@@ -39,12 +41,14 @@ const totalAmount =
   );
 
 
-  if (cartItems.length === 0) {
+ if (cartItems.length === 0) {
   return (
     <View style={styles.emptyContainer}>
       <Text style={styles.emptyText}>
         Your Cart is Empty 🛒
       </Text>
+
+      
     </View>
   );
 }
@@ -57,10 +61,13 @@ const totalAmount =
       </Text>
 
       <FlatList
-        data={cartItems}
-        keyExtractor={(item, index) =>
-          index.toString()
-        }
+  data={cartItems}
+  keyExtractor={(item, index) =>
+    index.toString()
+  }
+  contentContainerStyle={{
+    paddingBottom: 20,
+  }}
         renderItem={({ item }) => (
            <View style={styles.card}>
 
@@ -141,12 +148,9 @@ const totalAmount =
 
 <TouchableOpacity
   style={styles.checkoutButton}
-
   onPress={() =>
     router.push("/checkout")
-    
   }
-
 >
   <Text style={styles.checkoutText}>
     Proceed To Checkout
@@ -154,7 +158,12 @@ const totalAmount =
 </TouchableOpacity>
 
 
+
+ 
+
     </View>
+
+
   );
 }
 
@@ -248,7 +257,8 @@ totalContainer: {
   flexDirection: "row",
   justifyContent: "space-between",
   alignItems: "center",
-  marginTop: 20,
+  marginTop: 10,
+  marginBottom: 10,
   padding: 15,
   backgroundColor: "#111827",
   borderRadius: 12,
@@ -278,11 +288,19 @@ emptyText: {
   color: "gray",
 },
 
+// checkoutButton: {
+//   backgroundColor: "#F59E0B",
+//   padding: 18,
+//   borderRadius: 12,
+//   marginTop: 20,
+// },
+
 checkoutButton: {
   backgroundColor: "#F59E0B",
   padding: 18,
   borderRadius: 12,
-  marginTop: 20,
+  marginTop: 10,
+  marginBottom: 90,
 },
 
 checkoutText: {

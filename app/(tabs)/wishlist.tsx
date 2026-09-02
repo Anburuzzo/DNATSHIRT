@@ -16,6 +16,7 @@ import {
   WishlistContext,
 } from "../../src/context/WishlistContext";
 import { uploadImage } from "../../src/services/cloudinary";
+import BottomNavigation from "../../src/components/BottomNavigation";
 export default function Wishlist() {
 
   const { wishlistItems } =
@@ -42,6 +43,7 @@ export default function Wishlist() {
           <ProductCard item={item} />
         )}
       />
+     
 
     </View>
   );
@@ -51,6 +53,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
+    paddingBottom: 110,
     backgroundColor: "#fff",
   },
 

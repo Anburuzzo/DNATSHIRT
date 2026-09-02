@@ -10,6 +10,7 @@ import { router } from "expo-router";
 
 import { logoutUser } from "../../src/services/authService";
 import { uploadImage } from "../../src/services/cloudinary";
+import BottomNavigation from "../../src/components/BottomNavigation";
 export default function Profile() {
 
   const handleLogout = async () => {
@@ -69,7 +70,9 @@ export default function Profile() {
   </Text>
 </TouchableOpacity>
 
-    </View>
+
+
+</View>
   );
 }
 

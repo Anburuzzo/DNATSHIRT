@@ -144,7 +144,7 @@ export default function Home() {
     </View>
   );
 
-  return (
+    return (
     <SafeAreaView style={styles.container}>
       {loading ? (
         <View style={styles.loader}>
@@ -158,8 +158,14 @@ export default function Home() {
           ListHeaderComponent={renderHeader}
           ListEmptyComponent={
             <View style={styles.emptyState}>
-              <Ionicons name="shirt-outline" size={34} color="#9CA3AF" />
-              <Text style={styles.emptyTitle}>No products found</Text>
+              <Ionicons
+                name="shirt-outline"
+                size={34}
+                color="#9CA3AF"
+              />
+              <Text style={styles.emptyTitle}>
+                No products found
+              </Text>
               <Text style={styles.emptyText}>
                 Try another search or switch categories.
               </Text>
@@ -167,14 +173,15 @@ export default function Home() {
           }
           columnWrapperStyle={styles.productRow}
           contentContainerStyle={styles.listContent}
-          renderItem={({ item }) => <ProductCard item={item} />}
+          renderItem={({ item }) => (
+            <ProductCard item={item} />
+          )}
           showsVerticalScrollIndicator={false}
         />
       )}
 
-      
+      <BottomNavigation />
 
-      
     </SafeAreaView>
   );
 }
@@ -187,7 +194,7 @@ const styles = StyleSheet.create({
 
   listContent: {
     padding: 16,
-    paddingBottom: 28,
+    paddingBottom: 110,
   },
 
   headerContent: {

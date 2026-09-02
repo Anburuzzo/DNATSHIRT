@@ -87,30 +87,35 @@ export default function CartProvider({
     setCartItems(updatedCart);
   };
 
-
+  // REMOVE
   const removeItem = (
-  id: string
-) => {
+    id: string
+  ) => {
 
-  const filteredCart =
-    cartItems.filter(
-      (item) => item.id !== id
-    );
+    const filteredCart =
+      cartItems.filter(
+        (item) => item.id !== id
+      );
 
-  setCartItems(filteredCart);
-};
+    setCartItems(filteredCart);
+  };
 
+  // CLEAR CART
+  const clearCart = () => {
+    setCartItems([]);
+  };
 
-const clearCart = () => {
-  setCartItems([]);
-};
-
-
+  // CART BADGE COUNT
+  const cartCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   return (
     <CartContext.Provider
       value={{
         cartItems,
+        cartCount,
         addToCart,
         increaseQuantity,
         decreaseQuantity,
